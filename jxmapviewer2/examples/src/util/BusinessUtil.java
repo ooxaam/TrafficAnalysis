@@ -1,5 +1,7 @@
 package util;
 
+import static api.overpass.OverPassQueryBuilder.query;
+
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -43,9 +45,9 @@ public class BusinessUtil {
         return set;
     }
     
-    public static void calculateBoundingBox() {
-        HttpGet request =
-                new HttpGet(Constant.BOUNDING_BOX_URL_1);
+    public static void calculateBoundingBox(Set<GeoPosition> bound) {
+		// transform bound to string...
+		HttpGet request = new HttpGet(query("boundingBox"));
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             HttpResponse response = client.execute(request);
             System.out.println(response.toString());
