@@ -4,11 +4,11 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
-import lombok.Builder;
 import org.jxmapviewer.JXMapKit;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
 import util.BusinessUtil;
+import javax.annotation.Generated;
 
 /**
  * The listener interface for receiving boundingBoxAction events.
@@ -23,10 +23,14 @@ import util.BusinessUtil;
  * 
  *         Nov 29, 2018
  */
-@Builder
 public class BoundingBoxActionListener implements ActionListener {
 
     private JXMapKit jXMapKit;
+
+	@Generated("SparkTools")
+	private BoundingBoxActionListener(Builder builder) {
+		this.jXMapKit = builder.jXMapKit;
+	}
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -40,4 +44,34 @@ public class BoundingBoxActionListener implements ActionListener {
         System.out.println(bound.toString());
         BusinessUtil.calculateBoundingBox(bound);
     }
+
+	/**
+	 * Creates builder to build {@link BoundingBoxActionListener}.
+	 * @return created builder
+	 */
+	@Generated("SparkTools")
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	/**
+	 * Builder to build {@link BoundingBoxActionListener}.
+	 */
+	@Generated("SparkTools")
+	public static final class Builder {
+		private JXMapKit jXMapKit;
+
+		private Builder() {
+		}
+
+		public Builder jXMapKit(JXMapKit jXMapKit) {
+			this.jXMapKit = jXMapKit;
+			return this;
+		}
+
+		public BoundingBoxActionListener build() {
+			return new BoundingBoxActionListener(this);
+		}
+	}
+    
 }

@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.JToolTip;
 import javax.swing.border.EmptyBorder;
-import lombok.Getter;
 import mouselistener.MapMouseMotionListener;
 import org.jxmapviewer.JXMapKit;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -30,7 +29,6 @@ import util.Constant;
  * 
  *         Nov 15, 2018
  */
-@Getter
 public class Screen {
 
     private String lattitude = "31.5655908";
@@ -128,7 +126,21 @@ public class Screen {
         jXMapKit.setAddressLocation(gp);
     }
 
+	public JTextField getLocationText() {
+		return locationText;
+	}
+
+	public JToolTip getTooltip() {
+		return tooltip;
+	}
+
+	public GeoPosition getGp() {
+		return gp;
+	}
+
 }
+// String query = "https://lz4.overpass-api.de/api/interpreter?data=";query += URLEncoder.encode("[out:json];way['highway'~'residential|tertiary'](31.539688579577604,74.31746184825897,31.540276076595383,74.31981414556503);out meta;","UTF-8");
+// https://lz4.overpass-api.de/api/interpreter?data=[out:json];way%5B%22highway%22~%22residential%7Cprimary%7Ctertiary%7Cliving_street%7Cmotorway%7Cservice%22%5D(31.53840613160912,74.31694149971008,31.54097100992854,74.31983828544617);out%20meta;
 // https://www.overpass-api.de/api/interpreter?data=[out:json];node[highway=primary](50.7,7.1,50.8,7.25);out%20meta;
 // https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_API_by_Example
 // https://github.com/zsoltk/overpasser

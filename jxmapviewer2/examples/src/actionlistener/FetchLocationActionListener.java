@@ -4,7 +4,7 @@ import domain.Screen;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import lombok.Builder;
+import javax.annotation.Generated;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -26,10 +26,14 @@ import util.Constant;
  * 
  *         Nov 29, 2018
  */
-@Builder
 public class FetchLocationActionListener implements ActionListener {
 
     private Screen screen;
+
+	@Generated("SparkTools")
+	private FetchLocationActionListener(Builder builder) {
+		this.screen = builder.screen;
+	}
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -59,5 +63,34 @@ public class FetchLocationActionListener implements ActionListener {
         }
         return null;
     }
+
+	/**
+	 * Creates builder to build {@link FetchLocationActionListener}.
+	 * @return created builder
+	 */
+	@Generated("SparkTools")
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	/**
+	 * Builder to build {@link FetchLocationActionListener}.
+	 */
+	@Generated("SparkTools")
+	public static final class Builder {
+		private Screen screen;
+
+		private Builder() {
+		}
+
+		public Builder screen(Screen screen) {
+			this.screen = screen;
+			return this;
+		}
+
+		public FetchLocationActionListener build() {
+			return new FetchLocationActionListener(this);
+		}
+	}
 
 }

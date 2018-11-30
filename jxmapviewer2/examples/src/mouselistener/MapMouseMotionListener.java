@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
-import lombok.Builder;
+import javax.annotation.Generated;
 import org.jxmapviewer.JXMapKit;
 import org.jxmapviewer.JXMapViewer;
 
@@ -23,11 +23,16 @@ import org.jxmapviewer.JXMapViewer;
  * 
  *         Nov 29, 2018
  */
-@Builder
 public class MapMouseMotionListener implements MouseMotionListener {
 
     private JXMapKit jXMapKit;
     private Screen screen;
+
+	@Generated("SparkTools")
+	private MapMouseMotionListener(Builder builder) {
+		this.jXMapKit = builder.jXMapKit;
+		this.screen = builder.screen;
+	}
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -59,5 +64,40 @@ public class MapMouseMotionListener implements MouseMotionListener {
         }
 
     }
+
+	/**
+	 * Creates builder to build {@link MapMouseMotionListener}.
+	 * @return created builder
+	 */
+	@Generated("SparkTools")
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	/**
+	 * Builder to build {@link MapMouseMotionListener}.
+	 */
+	@Generated("SparkTools")
+	public static final class Builder {
+		private JXMapKit jXMapKit;
+		private Screen screen;
+
+		private Builder() {
+		}
+
+		public Builder jXMapKit(JXMapKit jXMapKit) {
+			this.jXMapKit = jXMapKit;
+			return this;
+		}
+
+		public Builder screen(Screen screen) {
+			this.screen = screen;
+			return this;
+		}
+
+		public MapMouseMotionListener build() {
+			return new MapMouseMotionListener(this);
+		}
+	}
 
 }

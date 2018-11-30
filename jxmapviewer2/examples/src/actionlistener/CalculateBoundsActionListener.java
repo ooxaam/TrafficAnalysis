@@ -2,7 +2,7 @@ package actionlistener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import lombok.Builder;
+import javax.annotation.Generated;
 import util.BusinessUtil;
 
 /**
@@ -18,12 +18,37 @@ import util.BusinessUtil;
  * 
  *         Nov 29, 2018
  */
-@Builder
 public class CalculateBoundsActionListener implements ActionListener {
 
-    @Override
+    @Generated("SparkTools")
+	private CalculateBoundsActionListener(Builder builder) {
+	}
+
+	@Override
     public void actionPerformed(ActionEvent e) {
         BusinessUtil.calculateBounds();
     }
+
+	/**
+	 * Creates builder to build {@link CalculateBoundsActionListener}.
+	 * @return created builder
+	 */
+	@Generated("SparkTools")
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	/**
+	 * Builder to build {@link CalculateBoundsActionListener}.
+	 */
+	@Generated("SparkTools")
+	public static final class Builder {
+		private Builder() {
+		}
+
+		public CalculateBoundsActionListener build() {
+			return new CalculateBoundsActionListener(this);
+		}
+	}
 
 }
