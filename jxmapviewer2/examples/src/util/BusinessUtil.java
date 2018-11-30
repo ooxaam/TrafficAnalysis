@@ -1,7 +1,10 @@
 package util;
 
 import static api.overpass.OverPassQueryBuilder.query;
+import static java.lang.String.valueOf;
 
+import api.overpass.OverPassResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -46,19 +49,56 @@ public class BusinessUtil {
     }
     
     public static void calculateBoundingBox(Set<GeoPosition> bound) {
-		// transform bound to string...
-		HttpGet request = new HttpGet(query("boundingBox"));
+        String bbox = geoPositionToBbox(bound);
+        final String query = query(bbox);
+        System.out.println(query);
+		HttpGet request = new HttpGet(query);
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             HttpResponse response = client.execute(request);
             System.out.println(response.toString());
             HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, Constant.CHAR_SET_UTF_8);
-            System.out.println(responseString);
-        } catch (IOException ex) {
+            /*String responseString = EntityUtils.toString(entity, Constant.CHAR_SET_UTF_8);
+            System.out.println(responseString);*/
+            
+            ObjectMapper objectMapper = new ObjectMapper();
+            OverPassResponse myObject = objectMapper.readValue(response.getEntity().getContent(), OverPassResponse.class);
+            System.out.println(myObject.toString());
+            
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
     
+    private static String geoPositionToBbox(Set<GeoPosition> bound) {
+        Object[] gps = bound.toArray();
+        GeoPosition gp1 = (GeoPosition) gps[0];
+        GeoPosition gp2 = (GeoPosition) gps[1];
+        String minLat;
+        String minLon;
+        String maxLat;
+        String maxLon;
+
+        if (gp2.getLatitude() > gp1.getLatitude()) {
+            minLat = valueOf(gp1.getLatitude());
+            maxLat = valueOf(gp2.getLatitude());
+        }
+        else {
+            minLat = valueOf(gp2.getLatitude());
+            maxLat = valueOf(gp1.getLatitude());
+        }
+
+        if (gp2.getLongitude() > gp1.getLongitude()) {
+            minLon = valueOf(gp1.getLongitude());
+            maxLon = valueOf(gp2.getLongitude());
+        }
+        else {
+            minLon = valueOf(gp2.getLongitude());
+            maxLon = valueOf(gp1.getLongitude());
+        }
+
+        return minLat + "," + minLon + "," + maxLat + "," + maxLon;
+    }
+
     public static void calculateBounds() {
         HttpGet request = new HttpGet(Constant.CALCULATE_BOUNDS_URL);
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {

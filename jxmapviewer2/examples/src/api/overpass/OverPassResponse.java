@@ -1,79 +1,51 @@
 package api.overpass;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class OverPassResponse {
-	Osm OsmObject;
+    private String generator;
 
-	// Getter Methods
+    private Osm3s osm3s;
 
-	public Osm getOsm() {
-		return OsmObject;
-	}
+    private Elements[] elements;
 
-	// Setter Methods
+    private String version;
 
-	public void setOsm(Osm osmObject) {
-		this.OsmObject = osmObject;
-	}
-}
+    public String getGenerator() {
+        return generator;
+    }
 
-class Osm {
-	private String note;
-	Meta MetaObject;
-	ArrayList<Object> way = new ArrayList<Object>();
-	private String _version;
-	private String _generator;
+    public void setGenerator(String generator) {
+        this.generator = generator;
+    }
 
-	// Getter Methods
+    public Osm3s getOsm3s() {
+        return osm3s;
+    }
 
-	public String getNote() {
-		return note;
-	}
+    public void setOsm3s(Osm3s osm3s) {
+        this.osm3s = osm3s;
+    }
 
-	public Meta getMeta() {
-		return MetaObject;
-	}
+    public Elements[] getElements() {
+        return elements;
+    }
 
-	public String get_version() {
-		return _version;
-	}
+    public void setElements(Elements[] elements) {
+        this.elements = elements;
+    }
 
-	public String get_generator() {
-		return _generator;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	// Setter Methods
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
-
-	public void setMeta(Meta metaObject) {
-		this.MetaObject = metaObject;
-	}
-
-	public void set_version(String _version) {
-		this._version = _version;
-	}
-
-	public void set_generator(String _generator) {
-		this._generator = _generator;
-	}
-}
-
-class Meta {
-	private String _osm_base;
-
-	// Getter Methods
-
-	public String get_osm_base() {
-		return _osm_base;
-	}
-
-	// Setter Methods
-
-	public void set_osm_base(String _osm_base) {
-		this._osm_base = _osm_base;
-	}
+    @Override
+    public String toString() {
+        return "OverPassResponse [generator=" + generator + ", osm3s=" + osm3s + ", elements="
+                + Arrays.toString(elements) + ", version=" + version + "]";
+    }
 }
