@@ -8,3 +8,5 @@ way["highway"="tertiary"]({{bbox}});
 out center;
 
 http://overpass-turbo.eu/
+
+return URL + OUTPUTFORMAT + URLEncoder.encode(IDEAL_FILTER_TAGS, "UTF-8") + "(" + boundingBox + ");" + POSITION;
