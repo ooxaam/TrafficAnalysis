@@ -1,13 +1,17 @@
 package api.overpass;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class OverPassResponse {
+public class OverPassResponse implements Serializable {
+
+    private static final long serialVersionUID = -4454302313259849567L;
+
     private String generator;
 
     private Osm3s osm3s;
 
-    private Elements[] elements;
+    private ElementsV2[] elements;
 
     private String version;
 
@@ -27,11 +31,11 @@ public class OverPassResponse {
         this.osm3s = osm3s;
     }
 
-    public Elements[] getElements() {
+    public ElementsV2[] getElements() {
         return elements;
     }
 
-    public void setElements(Elements[] elements) {
+    public void setElements(ElementsV2[] elements) {
         this.elements = elements;
     }
 
