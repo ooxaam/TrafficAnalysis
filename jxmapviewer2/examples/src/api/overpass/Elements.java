@@ -1,8 +1,12 @@
 package api.overpass;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Elements {
+public class Elements implements Serializable{
+
+    private static final long serialVersionUID = 7528842542820380084L;
+
     private Tags tags;
 
     private String uid;
