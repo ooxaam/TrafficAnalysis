@@ -4,6 +4,7 @@ public class OverPassQueryBuilder {
 	private static final String URL = "https://lz4.overpass-api.de/api/interpreter?data=";
 	// u can try out:json as well;
 	private static final String OUTPUTFORMAT = "[out:json];";
+	private static final String ALL= "way[highway]";
 	private static final String IDEAL_FILTER_TAGS = "way[\"highway\"~\"residential|primary|tertiary|living_street|motorway|service\"]";
 	private static final String RESIDENTAIL_TAG = "way[highway=residential]";
 	private static final String PRIMARY_TAG = "way[highway=primary]";
@@ -16,6 +17,6 @@ public class OverPassQueryBuilder {
 	private static final String POSITION = "out%20meta;";
 	
 	public static String query(String boundingBox) {
-		return URL + OUTPUTFORMAT + RESIDENTAIL_TAG + "(" + boundingBox + ");" + POSITION;
+		return URL + OUTPUTFORMAT + ALL + "(" + boundingBox + ");" + POSITION;
 	}
 }
