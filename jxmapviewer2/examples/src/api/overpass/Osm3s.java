@@ -1,6 +1,10 @@
 package api.overpass;
 
-public class Osm3s {
+import java.io.Serializable;
+
+public class Osm3s implements Serializable{
+    private static final long serialVersionUID = 8618992541808233422L;
+
     private String copyright;
 
     private String timestamp_osm_base;
