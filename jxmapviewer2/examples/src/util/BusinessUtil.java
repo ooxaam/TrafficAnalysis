@@ -7,7 +7,14 @@ import api.overpass.OverPassResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.http.HttpEntity;
@@ -52,23 +59,54 @@ public class BusinessUtil {
         String bbox = geoPositionToBbox(bound);
         final String query = query(bbox);
         System.out.println(query);
-		HttpGet request = new HttpGet(query);
+        HttpGet request = new HttpGet(query);
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             HttpResponse response = client.execute(request);
             System.out.println(response.toString());
-            HttpEntity entity = response.getEntity();
-            /*String responseString = EntityUtils.toString(entity, Constant.CHAR_SET_UTF_8);
-            System.out.println(responseString);*/
-            
+
             ObjectMapper objectMapper = new ObjectMapper();
-            OverPassResponse myObject = objectMapper.readValue(response.getEntity().getContent(), OverPassResponse.class);
-            System.out.println(myObject.toString());
-            
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            OverPassResponse jsonToPojo = objectMapper.readValue(response.getEntity().getContent(), OverPassResponse.class);
+
+            //System.out.println(jsonToPojo.toString());
+            writeToFile(jsonToPojo);
+
+            //readWriteSample(jsonToPojo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+    }
+
+    public static void readWriteSample(OverPassResponse jsonToPojo)
+            throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileOutputStream f = new FileOutputStream(new File("D://myObjects.txt"));
+        ObjectOutputStream o = new ObjectOutputStream(f);
+
+        o.writeObject(jsonToPojo);
+
+        o.close();
+        f.close();
+
+        FileInputStream fi = new FileInputStream(new File("D://myObjects.txt"));
+        ObjectInputStream oi = new ObjectInputStream(fi);
+
+        // Read objects
+        OverPassResponse pr1 = (OverPassResponse) oi.readObject();
+
+        System.out.println(pr1.toString());
+
+        oi.close();
+        fi.close();
     }
     
+    private static void writeToFile(OverPassResponse jsonToPojo) throws IOException {
+        try (FileWriter file = new FileWriter("D://file1.osm")) {
+            file.write(jsonToPojo.toString());
+            System.out.println("Successfully Copied JSON Object to File...");
+        }
+    }
+
     private static String geoPositionToBbox(Set<GeoPosition> bound) {
         Object[] gps = bound.toArray();
         GeoPosition gp1 = (GeoPosition) gps[0];
@@ -121,6 +159,4 @@ public class BusinessUtil {
         String l = responseString.substring(responseString.indexOf("lon='") + 5);
         return l.split("'")[0];
     }
-
-
 }
