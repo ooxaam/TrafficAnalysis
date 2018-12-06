@@ -2,7 +2,9 @@ package util;
 
 import static api.overpass.OverPassQueryBuilder.query;
 import static java.lang.String.valueOf;
+import static java.util.Arrays.stream;
 
+import api.overpass.ElementsV2;
 import api.overpass.OverPassResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.geom.Point2D;
@@ -70,6 +72,7 @@ public class BusinessUtil {
             //System.out.println(jsonToPojo.toString());
             writeToFile(jsonToPojo);
 
+            fetchWayRelations(jsonToPojo, 5618281558L);
             //readWriteSample(jsonToPojo);
 
         } catch (Exception e) {
@@ -78,7 +81,11 @@ public class BusinessUtil {
 
     }
 
-    public static void readWriteSample(OverPassResponse jsonToPojo)
+	private static ElementsV2 fetchWayRelations(OverPassResponse jsonToPojo, long wayId) {
+		return stream(jsonToPojo.getElements()).filter(o -> o.getID() == wayId).findFirst().orElse(null);
+	}
+
+	public static void readWriteSample(OverPassResponse jsonToPojo)
             throws FileNotFoundException, IOException, ClassNotFoundException {
         FileOutputStream f = new FileOutputStream(new File("D://myObjects.txt"));
         ObjectOutputStream o = new ObjectOutputStream(f);
