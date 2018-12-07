@@ -2,9 +2,7 @@ package util;
 
 import static api.overpass.OverPassQueryBuilder.query;
 import static java.lang.String.valueOf;
-import static java.util.Arrays.stream;
 
-import api.overpass.ElementsV2;
 import api.overpass.OverPassResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.geom.Point2D;
@@ -34,18 +32,19 @@ import org.jxmapviewer.viewer.TileFactory;
  *
  * @author NaumanH
  * 
- * Nov 29, 2018
+ *         Nov 29, 2018
  */
 public class BusinessUtil {
-    
+
     /**
      * Gets the bounds as a set of two <code>GeoPosition</code> objects.
-     * @param mapViewer The map viewer.
+     * 
+     * @param mapViewer
+     *            The map viewer.
      * @return Returns the set of two <code>GeoPosition</code> objects that represent the north west and south east
-     * corners of the map.
+     *         corners of the map.
      */
-    public static Set<GeoPosition> getMapGeoBounds(JXMapViewer mapViewer)
-    {
+    public static Set<GeoPosition> getMapGeoBounds(JXMapViewer mapViewer) {
         Set<GeoPosition> set = new HashSet<GeoPosition>();
         TileFactory tileFactory = mapViewer.getTileFactory();
         int zoom = mapViewer.getZoom();
@@ -56,7 +55,7 @@ public class BusinessUtil {
         set.add(tileFactory.pixelToGeo(pt, zoom));
         return set;
     }
-    
+
     public static void calculateBoundingBox(Set<GeoPosition> bound) {
         String bbox = geoPositionToBbox(bound);
         final String query = query(bbox);
@@ -64,16 +63,11 @@ public class BusinessUtil {
         HttpGet request = new HttpGet(query);
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             HttpResponse response = client.execute(request);
-            System.out.println(response.toString());
-
             ObjectMapper objectMapper = new ObjectMapper();
-            OverPassResponse jsonToPojo = objectMapper.readValue(response.getEntity().getContent(), OverPassResponse.class);
+            OverPassResponse jsonToPojo =
+                    objectMapper.readValue(response.getEntity().getContent(), OverPassResponse.class);
 
-            //System.out.println(jsonToPojo.toString());
-            writeToFile(jsonToPojo);
-
-            fetchWayRelations(jsonToPojo, 5618281558L);
-            //readWriteSample(jsonToPojo);
+            writeToFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonToPojo));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,11 +75,7 @@ public class BusinessUtil {
 
     }
 
-	private static ElementsV2 fetchWayRelations(OverPassResponse jsonToPojo, long wayId) {
-		return stream(jsonToPojo.getElements()).filter(o -> o.getID() == wayId).findFirst().orElse(null);
-	}
-
-	public static void readWriteSample(OverPassResponse jsonToPojo)
+    public static void readWriteSample(OverPassResponse jsonToPojo)
             throws FileNotFoundException, IOException, ClassNotFoundException {
         FileOutputStream f = new FileOutputStream(new File("D://myObjects.txt"));
         ObjectOutputStream o = new ObjectOutputStream(f);
@@ -106,10 +96,17 @@ public class BusinessUtil {
         oi.close();
         fi.close();
     }
-    
+
     private static void writeToFile(OverPassResponse jsonToPojo) throws IOException {
         try (FileWriter file = new FileWriter("D://file1.osm")) {
             file.write(jsonToPojo.toString());
+            System.out.println("Successfully Copied JSON Object to File...");
+        }
+    }
+
+    private static void writeToFile(String str) throws IOException {
+        try (FileWriter file = new FileWriter("D://file1.osm")) {
+            file.write(str);
             System.out.println("Successfully Copied JSON Object to File...");
         }
     }
@@ -126,8 +123,7 @@ public class BusinessUtil {
         if (gp2.getLatitude() > gp1.getLatitude()) {
             minLat = valueOf(gp1.getLatitude());
             maxLat = valueOf(gp2.getLatitude());
-        }
-        else {
+        } else {
             minLat = valueOf(gp2.getLatitude());
             maxLat = valueOf(gp1.getLatitude());
         }
@@ -135,8 +131,7 @@ public class BusinessUtil {
         if (gp2.getLongitude() > gp1.getLongitude()) {
             minLon = valueOf(gp1.getLongitude());
             maxLon = valueOf(gp2.getLongitude());
-        }
-        else {
+        } else {
             minLon = valueOf(gp2.getLongitude());
             maxLon = valueOf(gp1.getLongitude());
         }
@@ -156,7 +151,7 @@ public class BusinessUtil {
             ex.printStackTrace();
         }
     }
-    
+
     public static String calculateLattitude(String responseString) {
         String l = responseString.substring(responseString.indexOf("lat="));
         return l.substring(l.indexOf("'") + 1, l.indexOf("lon=") - 2);
