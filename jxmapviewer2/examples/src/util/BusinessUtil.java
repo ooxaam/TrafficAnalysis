@@ -68,7 +68,7 @@ public class BusinessUtil {
                     objectMapper.readValue(response.getEntity().getContent(), OverPassResponse.class);
 
             writeToFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonToPojo));
-
+	    fetchWayRelations(jsonToPojo, 5618281558L);
         } catch (Exception e) {
             e.printStackTrace();
         }
