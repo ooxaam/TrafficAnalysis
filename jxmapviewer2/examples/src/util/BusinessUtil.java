@@ -111,6 +111,10 @@ public class BusinessUtil {
         }
     }
 
+    private static ElementsV2 fetchWayRelations(OverPassResponse jsonToPojo, long wayId) {
+		return stream(jsonToPojo.getElements()).filter(o -> o.getID() == wayId).findFirst().orElse(null);
+	}
+
     private static String geoPositionToBbox(Set<GeoPosition> bound) {
         Object[] gps = bound.toArray();
         GeoPosition gp1 = (GeoPosition) gps[0];
