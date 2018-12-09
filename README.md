@@ -15,3 +15,8 @@ LINKS FOR WAY AND RELATIONS:
 https://help.openstreetmap.org/questions/47725/overpass-api-how-to-get-all-relations-for-a-nodeway
 https://www.openstreetmap.org/api/0.6/way/588213646
 https://gis.stackexchange.com/questions/296278/overpass-api-find-road-intersection-points-with-defined-line
+
+
+LINKS FOR ROUTING:
+https://wiki.openstreetmap.org/wiki/Frameworks
+Article: Navigation..
